@@ -1,6 +1,7 @@
 package mvc;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -9,6 +10,7 @@ public class ServerThread implements Runnable{
     HostModel model;
     int port;
     ArrayList<Client> clientArrayList = new ArrayList<>();
+    ArrayList<Stick> stickArrayList = new ArrayList<>();
 
     public ServerThread(HostModel model, int port) {
         this.model = model;
@@ -40,8 +42,21 @@ public class ServerThread implements Runnable{
 
     }
 
-    public void addConnection(Client cLient) {
-        clientArrayList.add(cLient);
+    public void addConnection(Client client) {
+        /*if (stickArrayList.size() == 0) {
+            stickArrayList.add(new Stick(50, 50, 20, 100, client));
+        } else if (stickArrayList.size() == 1) {
+            stickArrayList.add(new Stick(250, 250, 20, 100, client));
+        } else {
+            System.out.println("Shit's full");
+            return;
+        }*/
+        clientArrayList.add(client);
+        /*StringBuilder newMsg = new StringBuilder();
+        for (Stick stick : stickArrayList) {
+            newMsg.append(stick.toString());
+        }
+        sendMessageToAll(newMsg.toString());*/
     }
 
     public void sendMessageToAll(String msg) {

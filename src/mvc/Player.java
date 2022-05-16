@@ -1,7 +1,6 @@
 package mvc;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 public class Player implements Runnable {
@@ -15,11 +14,9 @@ public class Player implements Runnable {
     private int height = 600;
     //I have not taken scale into consideration so changing it will likely crash the whole thing
     private int scale = 1;
-    private boolean randomSpawn = false;
-    private boolean blackWhite = false;
-    private final Rectangle mouse = new Rectangle();
     private JFrame frame;
     private String title = "";
+    private Stick stick = new Stick(0, 0, 25, 100);
 
 
 
@@ -39,7 +36,8 @@ public class Player implements Runnable {
         frame.setVisible(true);
         frame.requestFocus();
 
-        model.startClient();
+        model.startClient(view);
+        //model.setUp();
     }
 
     private class ML implements MouseListener {
@@ -63,16 +61,31 @@ public class Player implements Runnable {
         @Override
         public void keyTyped(KeyEvent keyEvent) {
             if (keyEvent.getKeyChar() == 'k') {
-                model.sendMessage("mah balls");
+                model.sendMessage("wee woo");
+            }
+            if (keyEvent.getKeyChar() == 'a') {
+
             }
         }
 
         @Override
         public void keyPressed(KeyEvent keyEvent) {
+            if (keyEvent.getKeyChar() == 'w') {
+                model.sendMoveAction(-3);
+            }
+            if (keyEvent.getKeyChar() == 's') {
+                model.sendMoveAction(3);
+            }
         }
 
         @Override
         public void keyReleased(KeyEvent keyEvent) {
+            if (keyEvent.getKeyChar() == 'w') {
+                model.sendMoveAction(0);
+            }
+            if (keyEvent.getKeyChar() == 's') {
+                model.sendMoveAction(0);
+            }
         }
     }
 
@@ -116,7 +129,7 @@ public class Player implements Runnable {
             }
 
             while (deltaFPS >= 1) {
-                view.render();
+                view.render(model.getStickArrayList());
                 frames++;
                 deltaFPS--;
             }

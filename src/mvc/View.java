@@ -12,6 +12,7 @@ public class View extends Canvas {
     private int WIDTH;
     private int HEIGTH;
     private int scale;
+    private String message = "Nothing yet";
 
     private BufferedImage image;
     private Screen screen;
@@ -27,7 +28,7 @@ public class View extends Canvas {
         setPreferredSize(new Dimension(WIDTH, HEIGTH));
     }
 
-    public void render() {
+    public void render(ArrayList<Stick> stickArrayList) {
         BufferStrategy bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
@@ -35,12 +36,27 @@ public class View extends Canvas {
         }
 
         Graphics g = bs.getDrawGraphics();
-        g.drawImage(image, 0, 0, WIDTH, HEIGTH, null);
-        g.setColor(Color.BLUE);
-        g.drawRect(50, 50, 50, 50);
 
+
+        g.setColor(Color.black);
+        g.drawImage(image, 0, 0, WIDTH, HEIGTH, null);
+        g.drawString(message, 50, 150);
+        drawSticks(g, stickArrayList);
         g.dispose();
         bs.show();
+    }
+
+    public void drawSticks(Graphics g, ArrayList<Stick> stickArrayList) {
+        g.setColor(Color.white);
+        for (Stick stick : stickArrayList) {
+            Rectangle rect = stick.getRect();
+            //System.out.println("Drawing: " + rect.x + " " + rect.y + " " + rect.width + " " + rect.height);
+            g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        }
+    }
+
+    public void setText(String message) {
+        this.message = message;
     }
 
     public Screen getScreen() {

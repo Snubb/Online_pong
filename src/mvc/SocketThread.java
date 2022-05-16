@@ -1,15 +1,13 @@
 package mvc;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class SocketThread implements Runnable {
     ServerSocket serverSocket;
     ServerThread serverThread;
+    private int connections = 0;
 
     public SocketThread(ServerSocket serverSocket, ServerThread serverThread) {
         this.serverSocket = serverSocket;
@@ -28,7 +26,14 @@ public class SocketThread implements Runnable {
                 listener.start();
                 System.out.println("New connection found");
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                Client client = new Client(in, out);
+                ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream());
+                Client client = new Client(in, out, objOut);
+                if (connections == 0) {
+                    out.println("initSetUp: Player 1");
+                    connections++;
+                } else {
+                    out.println("initSetUp: Player 2");
+                }
                 serverThread.addConnection(client);
             } catch (IOException e) {
                 e.printStackTrace();
