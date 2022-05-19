@@ -9,16 +9,13 @@ public class Player implements Runnable {
     private int fps = 60;
     private int ups = 60;
     private PlayerModel model;
-    private View view;
-    private int width = 800;
-    private int height = 600;
+    private final View view;
+    private final int width = 800;
+    private final int height = 600;
     //I have not taken scale into consideration so changing it will likely crash the whole thing
     private int scale = 1;
     private JFrame frame;
     private String title = "";
-    private Stick stick = new Stick(0, 0, 25, 100);
-
-
 
     public Player() {
         model = new PlayerModel();
@@ -37,6 +34,7 @@ public class Player implements Runnable {
         frame.requestFocus();
 
         model.startClient(view);
+
         //model.setUp();
     }
 
@@ -71,10 +69,10 @@ public class Player implements Runnable {
         @Override
         public void keyPressed(KeyEvent keyEvent) {
             if (keyEvent.getKeyChar() == 'w') {
-                model.sendMoveAction(-3);
+                model.sendMoveAction(-5);
             }
             if (keyEvent.getKeyChar() == 's') {
-                model.sendMoveAction(3);
+                model.sendMoveAction(5);
             }
         }
 
@@ -122,14 +120,16 @@ public class Player implements Runnable {
             lastTime = now;
 
             while(deltaUPS >= 1) {
-                model.update();
+                if (model.isGameRunning()) {
+                    model.update();
+                }
                 view.draw();
                 updates++;
                 deltaUPS--;
             }
 
             while (deltaFPS >= 1) {
-                view.render(model.getStickArrayList());
+                view.render(model.getStickArrayList(), model.getBall());
                 frames++;
                 deltaFPS--;
             }
@@ -148,5 +148,4 @@ public class Player implements Runnable {
         Player c = new Player();
         c.start();
     }
-
 }

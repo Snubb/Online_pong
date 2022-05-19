@@ -33,6 +33,7 @@ public class SocketThread implements Runnable {
                     connections++;
                 } else {
                     out.println("initSetUp: Player 2");
+
                 }
                 serverThread.addConnection(client);
             } catch (IOException e) {

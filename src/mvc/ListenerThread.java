@@ -46,6 +46,10 @@ public class ListenerThread implements Runnable{
                         model.setUp(2);
                     }
                 }
+                if (msg.startsWith("beginGame")) {
+                    String direction = msg.split("beginGame")[1];
+                    model.begin(direction);
+                }
                 if (msg.startsWith("moveAction")) {
                     int player = Integer.parseInt(msg.substring(msg.indexOf('{')+1, msg.indexOf('}')));
                     int speed = Integer.parseInt(msg.substring(msg.indexOf('[')+1, msg.indexOf(']')));
@@ -63,8 +67,6 @@ public class ListenerThread implements Runnable{
                 running = false;
                 //e.printStackTrace();
             }
-            System.out.println(msg);
-
         }
     }
 

@@ -17,19 +17,23 @@ public class PlayerModel {
     PrintWriter out;
     private ArrayList<Stick> stickArrayList = new ArrayList<>();
     int player;
+    private boolean gameRunning;
+    private Ball ball = new Ball(350, 350);
 
     public void setUp(int player) {
         Stick myStick = new Stick(0, 0, 0, 0);
         Stick enemyStick = new Stick(0, 0, 0, 0);
         switch (player) {
             case 1:
+                System.out.println("you player 1");
                 myStick = new Stick(50, 50, 10, 100);
                 enemyStick = new Stick(750, 50, 10, 100);
                 this.player = 1;
                 break;
             case 2:
-                myStick = new Stick(750, 50, 10, 100);
-                enemyStick = new Stick(50, 50, 10, 100);
+                System.out.println("you player 2");
+                enemyStick = new Stick(750, 50, 10, 100);
+                myStick = new Stick(50, 50, 10, 100);
                 this.player = 2;
                 break;
         }
@@ -74,6 +78,7 @@ public class PlayerModel {
         for (Stick stick : stickArrayList) {
             stick.move();
         }
+        ball.update(stickArrayList);
     }
 
     public void startClient(View view) {
@@ -141,5 +146,18 @@ public class PlayerModel {
         return shapes;
     }
 
-
+    public void begin(String direction) {
+        this.gameRunning = true;
+        if (direction.equals("right")) {
+            this.ball.setVx(5);
+        } else {
+            this.ball.setVx(-5);
+        }
+    }
+    public boolean isGameRunning() {
+        return gameRunning;
+    }
+    public Ball getBall() {
+        return ball;
+    }
 }

@@ -28,7 +28,7 @@ public class View extends Canvas {
         setPreferredSize(new Dimension(WIDTH, HEIGTH));
     }
 
-    public void render(ArrayList<Stick> stickArrayList) {
+    public void render(ArrayList<Stick> stickArrayList, Ball ball) {
         BufferStrategy bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
@@ -42,8 +42,18 @@ public class View extends Canvas {
         g.drawImage(image, 0, 0, WIDTH, HEIGTH, null);
         g.drawString(message, 50, 150);
         drawSticks(g, stickArrayList);
+        g.fillOval(ball.getX(), ball.getY(), ball.getCircle().getRadius(), ball.getCircle().getRadius());
+        drawHitboxes(stickArrayList, ball, g);
         g.dispose();
         bs.show();
+    }
+
+    private void drawHitboxes(ArrayList<Stick> sticks, Ball ball, Graphics g) {
+        g.setColor(Color.blue);
+        for (Stick stick : sticks) {
+            g.drawRect(stick.getRect().x, stick.getRect().y, stick.getRect().width, stick.getRect().height);
+        }
+        g.drawRect(ball.getRect().x, ball.getRect().y, ball.getRect().width, ball.getRect(). height);
     }
 
     public void drawSticks(Graphics g, ArrayList<Stick> stickArrayList) {

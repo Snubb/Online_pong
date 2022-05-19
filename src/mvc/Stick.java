@@ -8,6 +8,24 @@ public class Stick implements Serializable {
     private int y;
     private int width;
     private int height;
+    private Rectangle rect;
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     private int vy;
     private Client client;
 
@@ -33,6 +51,7 @@ public class Stick implements Serializable {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.rect = new Rectangle(x, y, width, height);
     }
     public Stick(String string) {
         this.x = Integer.parseInt(string.substring(string.indexOf('x') + 2, string.indexOf(',', string.indexOf('x'))));

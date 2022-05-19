@@ -52,6 +52,14 @@ public class ServerThread implements Runnable{
             return;
         }*/
         clientArrayList.add(client);
+        if (clientArrayList.size() >= 2) {
+            //Denna lösning för att slumpa höger/vänster kinda shit men jag fixar senare kanske
+            if (Math.random() >= 0.5) {
+                sendMessageToAll("beginGame:right");
+            } else {
+                sendMessageToAll("beginGame:left");
+            }
+        }
         /*StringBuilder newMsg = new StringBuilder();
         for (Stick stick : stickArrayList) {
             newMsg.append(stick.toString());
