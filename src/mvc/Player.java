@@ -27,7 +27,7 @@ public class Player implements Runnable {
         frame.setResizable(false);
         frame.add(view);
         frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         view.addKeyListener(new KL());
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

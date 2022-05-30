@@ -64,9 +64,14 @@ public class Ball {
         }
         for (Stick stick: sticks) {
             if (this.rect.intersects(stick.getRect())) {
-                System.out.println("Bounced");
                 //this.x = 400;
                 this.vx *= -1;
+                this.vy += stick.getVy();
+                if (this.vy > 5) {
+                    this.vy = 5;
+                } else if(this.vy < -5) {
+                    this.vy = -5;
+                }
             }
 
         }

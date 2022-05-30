@@ -9,9 +9,15 @@ public class Stick implements Serializable {
     private int width;
     private int height;
     private Rectangle rect;
+    private int vy;
+    private Client client;
 
     public int getX() {
         return x;
+    }
+
+    public int getVy() {
+        return vy;
     }
 
     public int getY() {
@@ -26,8 +32,6 @@ public class Stick implements Serializable {
         return height;
     }
 
-    private int vy;
-    private Client client;
 
     @Override
     public String toString() {
