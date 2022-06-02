@@ -5,6 +5,9 @@ import mvc.Shapes.Point;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Ball {
     private int x;
@@ -13,6 +16,7 @@ public class Ball {
     private int vy;
     private Circle circle;
     private Rectangle rect;
+    private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     public int getX() {
         return x;
@@ -44,6 +48,19 @@ public class Ball {
         this.circle = new Circle(new Point(x, y), 10);
         this.rect = new Rectangle(x, y, 10, 10);
     }
+
+    public void reset() {
+        this.x = 400;
+        int saveVx = this.vx;
+        this.vx = 0;
+        this.vy = 0;
+        executorService.schedule(new Runnable() {
+                    @Override
+                    public void run() {
+                        vx = -saveVx;
+                    }
+                }, 3, TimeUnit.SECONDS);
+    }
     public void update(ArrayList<Stick> sticks) {
         this.x += vx;
         this.y += vy;
@@ -55,13 +72,6 @@ public class Ball {
             this.y = 600;
             this.vy *= -1;
         }
-        if (this.x < 0) {
-            this.x = 400;
-            this.vx *= -1;
-        } else if (this.x > 800) {
-            this.x = 400;
-            this.vx *= -1;
-        }
         for (Stick stick: sticks) {
             if (this.rect.intersects(stick.getRect())) {
                 //this.x = 400;
@@ -72,6 +82,7 @@ public class Ball {
                 } else if(this.vy < -5) {
                     this.vy = -5;
                 }
+
             }
 
         }

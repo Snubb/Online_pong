@@ -1,14 +1,19 @@
 package mvc;
 
 public class HostModel {
-    int port = 8000;
+    ServerThread serverThread;
+    Thread server;
 
     public HostModel() {
 
     }
-    public void startServer(HostModel model) {
-        ServerThread serverThread = new ServerThread(model, port);
-        Thread server = new Thread(serverThread);
+    public void startServer(HostModel model, int port) {
+        serverThread = new ServerThread(model, port);
+        server = new Thread(serverThread);
         server.start();
+    }
+    public void closeServer() {
+        serverThread.stop();
+        server.interrupt();
     }
 }

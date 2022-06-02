@@ -3,6 +3,8 @@ package mvc;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class Host {
     private HostModel model;
@@ -21,9 +23,29 @@ public class Host {
         view.getServerStartButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                model.startServer(model);
-                view.getTextArea1().setText("Server started");
+                String ip = "Nothing";
+                int port = Integer.parseInt(JOptionPane.showInputDialog("Port (ex: 8000): "));
+                try {
+                    ip = InetAddress.getLocalHost().toString();
+                } catch (UnknownHostException ex) {
+                    ex.printStackTrace();
+                }
+                model.startServer(model, port);
+                view.getTextArea1().setText("Server started at port " + port);
                 view.getServerStartButton().setEnabled(false);
+                view.getCloseServerButton().setEnabled(true);
+            }
+        });
+
+        view.getCloseServerButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.closeServer();
+                view.getTextArea1().setText("Server closed");
+                view.getCloseServerButton().setEnabled(false);
+                view.getServerStartButton().setEnabled(true);
+                view.getOpenPlayerButton().setEnabled(true);
+                view.getOpenSecondPlayerButton().setEnabled(true);
             }
         });
 

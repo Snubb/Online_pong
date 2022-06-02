@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ServerThread implements Runnable{
-    HostModel model;
-    int port;
-    ArrayList<Client> clientArrayList = new ArrayList<>();
-    ArrayList<Stick> stickArrayList = new ArrayList<>();
+    private HostModel model;
+    private int port;
+    private ArrayList<Client> clientArrayList = new ArrayList<>();
+    private ArrayList<Stick> stickArrayList = new ArrayList<>();
+    private ServerSocket serverSocket;
+    private SocketThread socketThread;
 
     public ServerThread(HostModel model, int port) {
         this.model = model;
@@ -19,8 +21,8 @@ public class ServerThread implements Runnable{
 
     public void run() {
         try {
-            ServerSocket serverSocket = new ServerSocket(port);
-            SocketThread socketThread = new SocketThread(serverSocket, this);
+            serverSocket = new ServerSocket(port);
+            socketThread = new SocketThread(serverSocket, this);
             Thread server = new Thread(socketThread);
             server.start();
             boolean run = true;
@@ -39,7 +41,12 @@ public class ServerThread implements Runnable{
     }
 
     public void stop() {
-
+        try {
+            socketThread.stop();
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addConnection(Client client) {

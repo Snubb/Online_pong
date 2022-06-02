@@ -61,7 +61,6 @@ public class ListenerThread implements Runnable{
                 stickArrayList.add(msg.substring(0, msg.length()/2));
                 stickArrayList.add(msg.substring(msg.length()/2));*/
 
-                view.setText(msg);
                 //model.setStickArrayList(stickArrayList);
             } catch (IOException e) {
                 running = false;

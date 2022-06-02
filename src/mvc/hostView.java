@@ -9,6 +9,7 @@ public class hostView {
     private JButton serverStartButton;
     private JButton openPlayerButton;
     private JButton openSecondPlayerButton;
+    private JButton closeServerButton;
 
     public JTextArea getTextArea1() {
         return textArea1;
@@ -20,6 +21,10 @@ public class hostView {
 
     public JButton getOpenPlayerButton() {
         return openPlayerButton;
+    }
+
+    public JButton getCloseServerButton() {
+        return closeServerButton;
     }
 
     public JButton getOpenSecondPlayerButton() {

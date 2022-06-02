@@ -58,9 +58,6 @@ public class Player implements Runnable {
     private class KL implements KeyListener {
         @Override
         public void keyTyped(KeyEvent keyEvent) {
-            if (keyEvent.getKeyChar() == 'k') {
-                model.sendMessage("wee woo");
-            }
             if (keyEvent.getKeyChar() == 'a') {
 
             }
@@ -123,13 +120,17 @@ public class Player implements Runnable {
                 if (model.isGameRunning()) {
                     model.update();
                 }
+                if (model.isScored()) {
+                    view.beginCountdown();
+                    model.setScored(false);
+                }
                 view.draw();
                 updates++;
                 deltaUPS--;
             }
 
             while (deltaFPS >= 1) {
-                view.render(model.getStickArrayList(), model.getBall());
+                view.render(model.getStickArrayList(), model.getBall(), model.getPlayer1score(), model.getPlayer2score());
                 frames++;
                 deltaFPS--;
             }

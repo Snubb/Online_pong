@@ -11,14 +11,31 @@ import java.util.Scanner;
 
 
 public class PlayerModel {
-    private int numBalls;
-    private double timeFrame = 0.1;
     Socket socket = null;
     PrintWriter out;
     private ArrayList<Stick> stickArrayList = new ArrayList<>();
     int player;
     private boolean gameRunning;
     private Ball ball = new Ball(350, 350);
+    private int player1score = 0;
+    private int player2score = 0;
+    private boolean scored = false;
+
+    public boolean isScored() {
+        return scored;
+    }
+
+    public void setScored(boolean scored) {
+        this.scored = scored;
+    }
+
+    public int getPlayer1score() {
+        return player1score;
+    }
+
+    public int getPlayer2score() {
+        return player2score;
+    }
 
     public void setUp(int player) {
         Stick myStick = new Stick(0, 0, 0, 0);
@@ -66,10 +83,6 @@ public class PlayerModel {
         return msg.toString();
     }
 
-    public void setTimeFrame(double timeFrame) {
-        this.timeFrame = timeFrame;
-    }
-
     public PlayerModel(){
 
     }
@@ -79,11 +92,28 @@ public class PlayerModel {
             stick.move();
         }
         ball.update(stickArrayList);
+        checkForCollision();
     }
 
+    private void checkForCollision() {
+        if (ball.getX() < 0) {
+            ball.reset();
+            player2score++;
+            scored = true;
+        } else if (ball.getX() > 800) {
+            ball.reset();
+            player1score++;
+            scored = true;
+        }
+    }
+
+
+
     public void startClient(View view) {
-        String ip = "localhost";
-        int port = 8000;
+        //String ip = "localhost";
+        //int port = 8000;
+        String ip = JOptionPane.showInputDialog("IP: ");
+        int port = Integer.parseInt(JOptionPane.showInputDialog("Port: "));
 
         try {
             socket = new Socket(ip,port);
@@ -153,6 +183,7 @@ public class PlayerModel {
         } else {
             this.ball.setVx(-5);
         }
+        ball.reset();
     }
     public boolean isGameRunning() {
         return gameRunning;

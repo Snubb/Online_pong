@@ -76,6 +76,16 @@ public class Stick implements Serializable {
         this.vy = speed;
     }
     public void move() {
+
         this.y += this.vy;
+
+        if (this.y < 0) {
+            this.vy = 0;
+            this.y = 0;
+        }
+        if (this.y + this.height > 600) {
+            this.vy = 0;
+            this.y = 600 - this.height;
+        }
     }
 }

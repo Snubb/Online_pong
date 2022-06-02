@@ -8,6 +8,7 @@ public class SocketThread implements Runnable {
     ServerSocket serverSocket;
     ServerThread serverThread;
     private int connections = 0;
+    private boolean running;
 
     public SocketThread(ServerSocket serverSocket, ServerThread serverThread) {
         this.serverSocket = serverSocket;
@@ -16,7 +17,7 @@ public class SocketThread implements Runnable {
 
     @Override
     public void run() {
-        boolean running = true;
+        running = true;
         while (running) {
             try {
                 Socket socket = serverSocket.accept();
@@ -45,7 +46,7 @@ public class SocketThread implements Runnable {
 
 
     public void stop() {
-
+        running = false;
     }
 }
 
